@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
@@ -24,6 +24,25 @@ interface PdfViewerProps {
 
 const PdfViewer: React.FC<PdfViewerProps> = ({ file, fields, onPageClick, onFieldUpdate }) => {
   const [numPages, setNumPages] = useState<number | null>(null);
+  const [scale, setScale] = useState(1.2);
+
+  // Responsive scaling
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 600) {
+        setScale(0.6);
+      } else if (width < 1024) {
+        setScale(0.8);
+      } else {
+        setScale(1.2);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -40,7 +59,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ file, fields, onPageClick, onFiel
   };
 
   return (
-    <div className="pdf-viewer-container" style={{ overflowY: 'auto', maxHeight: '85vh', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#525659' }}>
+    <div className="pdf-viewer-container" style={{ overflowY: 'auto', maxHeight: '85vh', padding: '10px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#525659' }}>
       <Document
         file={file}
         onLoadSuccess={onDocumentLoadSuccess}
@@ -69,7 +88,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ file, fields, onPageClick, onFiel
                 pageNumber={pageNumber}
                 renderTextLayer={true}
                 renderAnnotationLayer={true}
-                scale={1.2}
+                scale={scale}
               />
               
               {/* Overlay Fields */}
@@ -93,7 +112,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ file, fields, onPageClick, onFiel
                       visibility: 'hidden',
                       whiteSpace: 'pre',
                       padding: '2px 6px',
-                      fontSize: `${field.fontSize * 1.2}px`,
+                      fontSize: `${field.fontSize * scale}px`,
                       fontFamily: 'Inter, system-ui, sans-serif',
                       minWidth: '30px'
                     }}
@@ -111,7 +130,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ file, fields, onPageClick, onFiel
                       width: '100%',
                       height: '100%',
                       padding: '2px 4px',
-                      fontSize: `${field.fontSize * 1.2}px`,
+                      fontSize: `${field.fontSize * scale}px`,
                       border: '1px solid #646cff',
                       borderRadius: '2px',
                       backgroundColor: 'rgba(255, 255, 255, 0.3)',

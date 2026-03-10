@@ -1,9 +1,5 @@
 :root {
-  font-family:
-    "Inter",
-    system-ui,
-    -apple-system,
-    sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light;
@@ -25,16 +21,15 @@ body {
   box-sizing: border-box;
 }
 
-h1,
-h2,
-h3 {
+h1, h2, h3 {
   color: #1a1a1a;
   margin-top: 0;
 }
 
 .app-container {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 button {
@@ -64,17 +59,55 @@ input[type="text"]:focus {
   box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.1);
 }
 
+/* Editor Layout */
+.editor-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+}
+
 .sidebar {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
 }
 
 .pdf-viewer-container {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 1024px) {
+  .editor-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    position: static;
+    margin-top: 20px;
+    order: 2; /* Sidebar below the PDF on mobile */
+  }
+
+  .pdf-editor-section {
+    order: 1;
+  }
+
+  .app-container {
+    padding: 10px;
+  }
 }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {

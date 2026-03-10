@@ -57,9 +57,7 @@ function App() {
           const page = pages[pageIndex];
           const { width, height } = page.getSize();
 
-          // Map percentages back to PDF points
           const pdfX = (field.x / 100) * width;
-          // Baseline alignment: subtract about 35% of the font size to better align the text center
           const pdfY =
             height - (field.y / 100) * height - field.fontSize * 0.35;
 
@@ -72,6 +70,7 @@ function App() {
           });
         }
       });
+
       const pdfBytes = await pdfDoc.save();
       const blob = new Blob([pdfBytes as any], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
@@ -87,10 +86,7 @@ function App() {
   };
 
   return (
-    <div
-      className="app-container"
-      style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}
-    >
+    <div className="app-container">
       <header style={{ marginBottom: "30px", textAlign: "center" }}>
         <h1>Fillr</h1>
         <h3>PDF Form Filler</h3>
@@ -103,14 +99,7 @@ function App() {
             <FileSelector onFileSelect={handleFileSelect} />
           </div>
         ) : (
-          <div
-            className="editor-layout"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 300px",
-              gap: "20px",
-            }}
-          >
+          <div className="editor-layout">
             <div className="pdf-editor-section">
               <PdfViewer
                 file={file}
@@ -120,18 +109,7 @@ function App() {
               />
             </div>
 
-            <aside
-              className="sidebar"
-              style={{
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                padding: "20px",
-                backgroundColor: "#fff",
-                height: "fit-content",
-                position: "sticky",
-                top: "20px",
-              }}
-            >
+            <aside className="sidebar">
               <div
                 style={{ display: "flex", gap: "8px", marginBottom: "20px" }}
               >
@@ -168,136 +146,137 @@ function App() {
                 </button>
               </div>
 
-              <div
-                className="fields-list"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "15px",
-                  maxHeight: "60vh",
-                  overflowY: "auto",
-                  paddingRight: "5px",
-                }}
-              >
-                {fields.length === 0 && (
-                  <p style={{ color: "#999", fontSize: "0.9em" }}>
-                    No fields added yet. Click on the document to start filling.
-                  </p>
-                )}
-                {fields.map((field) => (
-                  <div
-                    key={field.id}
-                    style={{
-                      border: "1px solid #eee",
-                      padding: "12px",
-                      borderRadius: "8px",
-                      backgroundColor: "#fafafa",
-                    }}
-                  >
+              <div className="fields-list-container">
+                <h3 style={{ marginBottom: "15px" }}>
+                  Fields ({fields.length})
+                </h3>
+                <div
+                  className="fields-list"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "15px",
+                    maxHeight: "60vh",
+                    overflowY: "auto",
+                    paddingRight: "5px",
+                  }}
+                >
+                  {fields.length === 0 && (
+                    <p style={{ color: "#999", fontSize: "0.9em" }}>
+                      No fields added yet. Click on the document to start
+                      filling.
+                    </p>
+                  )}
+                  {fields.map((field) => (
                     <div
+                      key={field.id}
                       style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "10px",
-                        fontSize: "0.75rem",
-                        fontWeight: "600",
-                        color: "#888",
-                        textTransform: "uppercase",
+                        border: "1px solid #eee",
+                        padding: "10px",
+                        borderRadius: "6px",
+                        backgroundColor: "#fafafa",
                       }}
                     >
-                      <span>Page {field.page}</span>
-                      <button
-                        onClick={() => deleteField(field.id)}
+                      <div
                         style={{
-                          border: "none",
-                          background: "none",
-                          color: "#ff4d4f",
-                          cursor: "pointer",
-                          padding: 0,
+                          display: "flex",
+                          justifyContent: "space-between",
+                          marginBottom: "8px",
+                          fontSize: "0.8em",
+                          color: "#666",
                         }}
-                        title="Delete field"
                       >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-
-                    <input
-                      type="text"
-                      placeholder="Enter value..."
-                      value={field.value}
-                      onChange={(e) =>
-                        updateField(field.id, { value: e.target.value })
-                      }
-                      style={{
-                        width: "100%",
-                        padding: "8px",
-                        borderRadius: "4px",
-                        border: "1px solid #ddd",
-                        marginBottom: "10px",
-                      }}
-                    />
-
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
+                        <span>Page {field.page}</span>
+                        <button
+                          onClick={() => deleteField(field.id)}
+                          style={{
+                            border: "none",
+                            background: "none",
+                            color: "#ff4d4f",
+                            cursor: "pointer",
+                            padding: 0,
+                          }}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Enter value..."
+                        value={field.value}
+                        onChange={(e) =>
+                          updateField(field.id, { value: e.target.value })
+                        }
+                        style={{
+                          width: "100%",
+                          padding: "8px",
+                          borderRadius: "4px",
+                          border: "1px solid #ddd",
+                          marginBottom: "8px",
+                        }}
+                      />
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
-                          gap: "4px",
-                          color: "#666",
+                          gap: "10px",
                         }}
                       >
-                        <Type size={14} />
-                        <span style={{ fontSize: "0.8rem" }}>
-                          Size: {field.fontSize}px
-                        </span>
-                      </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          gap: "4px",
-                          marginLeft: "auto",
-                        }}
-                      >
-                        <button
-                          onClick={() =>
-                            updateField(field.id, {
-                              fontSize: Math.max(8, field.fontSize - 1),
-                            })
-                          }
+                        <div
                           style={{
-                            padding: "2px 6px",
-                            border: "1px solid #ddd",
-                            background: "#fff",
-                            borderRadius: "4px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px",
+                            color: "#666",
                           }}
                         >
-                          <Minus size={12} />
-                        </button>
-                        <button
-                          onClick={() =>
-                            updateField(field.id, {
-                              fontSize: Math.min(72, field.fontSize + 1),
-                            })
-                          }
+                          <Type size={14} />
+                          <span style={{ fontSize: "0.8rem" }}>
+                            {field.fontSize}px
+                          </span>
+                        </div>
+                        <div
                           style={{
-                            padding: "2px 6px",
-                            border: "1px solid #ddd",
-                            background: "#fff",
-                            borderRadius: "4px",
+                            display: "flex",
+                            gap: "4px",
+                            marginLeft: "auto",
                           }}
                         >
-                          <Plus size={12} />
-                        </button>
+                          <button
+                            onClick={() =>
+                              updateField(field.id, {
+                                fontSize: Math.max(8, field.fontSize - 1),
+                              })
+                            }
+                            style={{
+                              padding: "2px 6px",
+                              border: "1px solid #ddd",
+                              background: "#fff",
+                              borderRadius: "4px",
+                            }}
+                          >
+                            <Minus size={12} />
+                          </button>
+                          <button
+                            onClick={() =>
+                              updateField(field.id, {
+                                fontSize: Math.min(72, field.fontSize + 1),
+                              })
+                            }
+                            style={{
+                              padding: "2px 6px",
+                              border: "1px solid #ddd",
+                              background: "#fff",
+                              borderRadius: "4px",
+                            }}
+                          >
+                            <Plus size={12} />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
 
               <div
