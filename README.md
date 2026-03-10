@@ -1,73 +1,90 @@
-# React + TypeScript + Vite
+# Fillr: Private PDF Form Filler
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Fillr** is a lightweight, privacy-focused, browser-based application designed to help you fill out PDF forms without ever uploading your data to a server. It allows you to place text and images directly onto a PDF, resize them, and reposition them using an intuitive drag-and-drop interface.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
+Access the app here: **[https://JhesorleyML.github.io/pdf-form-filler/](https://JhesorleyML.github.io/pdf-form-filler/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+-   **🔒 Privacy-First Design:** All processing happens locally in your browser. Your documents and data never leave your computer.
+-   **✍️ Dynamic Text Fields:** Text boxes automatically expand and contract as you type.
+-   **🖼️ Image Support:** Upload and embed PNG/JPG images (like signatures or photos) directly into the PDF.
+-   **🖱️ Drag-and-Drop Repositioning:** Click and drag any field (text or image) to position it with pixel-perfect accuracy.
+-   **📏 Real-time Scaling:** Adjust font sizes or image scales with live visual feedback.
+-   **📄 Multi-Page Support:** Seamlessly navigate and fill fields across multiple pages.
+-   **💾 Client-Side Generation:** Generate and download your updated PDF instantly using `pdf-lib`.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Technology Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+-   **Framework:** [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+-   **Build Tool:** [Vite](https://vitejs.dev/)
+-   **PDF Rendering:** [react-pdf](https://projects.wojtekmaj.pl/react-pdf/)
+-   **PDF Manipulation:** [pdf-lib](https://pdf-lib.js.org/)
+-   **Icons:** [Lucide React](https://lucide.dev/)
+-   **Deployment:** GitHub Actions + GitHub Pages
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🏗️ Architecture
+
+The application follows a **frontend-only architecture**, requiring no backend or database.
+
+```text
+User Browser
+     │
+     │ 1. Upload PDF & Images
+     │
+React Application (Vite/TS)
+     │
+     ├── Render PDF (react-pdf)
+     ├── Interactive Overlay (Drag & Drop)
+     ├── Data Capture
+     └── Generate Modified PDF (pdf-lib)
+     │
+     ▼
+2. Download Updated PDF
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📦 Getting Started
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- npm or yarn
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/JhesorleyML/pdf-form-filler.git
+   ```
+2. Navigate to the project folder:
+   ```bash
+   cd pdf-editor
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+---
+
+## 📜 Implementation Details
+For a detailed breakdown of the development phases and technical refinements (like the coordinate mapping logic), please refer to the [implementation.md](./implementation.md) file.
+
+---
+
+## 🤝 Contributing
+Feel free to fork this project and submit pull requests. For major changes, please open an issue first to discuss what you would like to change.
+
+## 📄 License
+[MIT](https://choosealicense.com/licenses/mit/)
