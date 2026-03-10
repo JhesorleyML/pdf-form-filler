@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FileSelector from "./components/FileSelector";
 import PdfViewer from "./components/PdfViewer";
-import { Download, Trash2, Type, Minus, Plus, Image as ImageIcon, MousePointer2 } from "lucide-react";
+import { Download, Trash2, Type, Minus, Plus, Image as ImageIcon } from "lucide-react";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 interface PdfField {

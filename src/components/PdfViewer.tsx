@@ -51,7 +51,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ file, fields, onPageClick, onFiel
     setDraggingId(id);
   };
 
-  const handleMouseMove = (pageNumber: number, e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (_pageNumber: number, e: React.MouseEvent<HTMLDivElement>) => {
     if (!draggingId) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
