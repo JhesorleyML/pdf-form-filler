@@ -47,7 +47,17 @@ This document outlines the step-by-step implementation strategy for the PDF Form
 - Verify text alignment between the browser overlay and the generated output.
 - Perform cross-browser testing (Chrome, Firefox, Safari).
 
-## Phase 8: Deployment to GitHub Pages
+## Phase 9: Image Support & Interactive Editing (Completed)
+- **Feature**: Image Upload, Embedding, and Drag-and-Drop.
+- **Implementation**:
+    - Added a `type` property to `PdfField` to distinguish between `text` and `image`.
+    - Implemented a **Tool Selector** (Text vs. Image) to switch between editing modes.
+    - Built a **Drag-and-Drop system** allowing users to reposition any field by clicking and dragging directly on the PDF.
+    - Developed a **Scale Controller** for images, providing real-time visual feedback and precise sizing in the final PDF.
+    - Integrated `pdf-lib`'s `embedPng` and `embedJpg` to bake images into the document at the correct coordinates and scale.
+    - **Refinement**: Implemented a centered transformation for image fields to make placement and scaling feel more intuitive.
+
+## Phase 10: Deployment to GitHub Pages
 - **Configuration**: Updated `vite.config.ts` with `base: './'` for relative path resolution.
 - **Automation**: Created `.github/workflows/deploy.yml` to enable automatic deployment via GitHub Actions on every push to `main`.
 - **Deployment Steps**:
