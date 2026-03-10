@@ -101,47 +101,58 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ file, fields, onPageClick, onFiel
                     top: `${field.y}%`,
                     transform: 'translate(0, -50%)',
                     zIndex: 10,
-                    display: 'inline-grid',
-                    alignItems: 'center'
+                    display: 'inline-block', // Shrink wrap the container
                   }}
                 >
-                  {/* Ghost text for auto-sizing width */}
-                  <span
-                    style={{
-                      gridArea: '1/1',
-                      visibility: 'hidden',
-                      whiteSpace: 'pre',
-                      padding: '2px 6px',
-                      fontSize: `${field.fontSize * scale}px`,
-                      fontFamily: 'Inter, system-ui, sans-serif',
-                      minWidth: '30px'
-                    }}
-                  >
-                    {field.value || ' '}
-                  </span>
-                  
-                  <input
-                    type="text"
-                    value={field.value}
-                    onChange={(e) => onFieldUpdate(field.id, e.target.value)}
-                    placeholder=""
-                    style={{
-                      gridArea: '1/1',
-                      width: '100%',
-                      height: '100%',
-                      padding: '2px 4px',
-                      fontSize: `${field.fontSize * scale}px`,
-                      border: '1px solid #646cff',
-                      borderRadius: '2px',
-                      backgroundColor: 'rgba(255, 255, 255, 0.3)',
-                      color: '#000',
-                      outline: 'none',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                      fontFamily: 'inherit'
-                    }}
-                    autoFocus={field.value === ''}
-                    onClick={(e) => e.stopPropagation()}
-                  />
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    {/* Ghost text for auto-sizing width */}
+                    <span
+                      style={{
+                        visibility: 'hidden',
+                        whiteSpace: 'pre',
+                        padding: '0 4px', // Decreased padding to 4px
+                        fontSize: `${field.fontSize * scale}px`,
+                        fontFamily: 'inherit',
+                        fontWeight: 'inherit',
+                        letterSpacing: 'inherit',
+                        minWidth: '1.5ch',
+                        lineHeight: '1.4',
+                        pointerEvents: 'none',
+                        display: 'inline-block'
+                      }}
+                    >
+                      {field.value ? field.value + '\u00A0' : '  '} 
+                    </span>
+                    
+                    <input
+                      type="text"
+                      value={field.value}
+                      onChange={(e) => onFieldUpdate(field.id, e.target.value)}
+                      placeholder=""
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        padding: '0 4px', // Matches ghost text
+                        fontSize: `${field.fontSize * scale}px`,
+                        fontFamily: 'inherit',
+                        fontWeight: 'inherit',
+                        letterSpacing: 'inherit',
+                        border: '1px solid rgba(100, 108, 255, 0.5)',
+                        borderRadius: '2px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                        color: '#000',
+                        outline: 'none',
+                        lineHeight: '1.4',
+                        boxSizing: 'border-box',
+                        margin: 0
+                      }}
+                      autoFocus={field.value === ''}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  </div>
                 </div>
               ))}
             </div>
